@@ -1,0 +1,51 @@
+@echo off
+title Browser History Viewer
+echo.
+echo ================================================
+echo            Browser History Viewer
+echo ================================================
+echo.
+
+REM Check if Python is installed
+python --version >nul 2>&1
+if errorlevel 1 (
+    echo ERROR: Python is not installed or not in PATH
+    echo Please install Python 3.7 or later from https://python.org
+    pause
+    exit /b 1
+)
+
+REM Check if required files exist
+if not exist "app.py" (
+    echo ERROR: app.py not found in current directory
+    pause
+    exit /b 1
+)
+
+if not exist "templates\index.html" (
+    echo ERROR: templates\index.html not found
+    echo Please create the templates directory and save the HTML file there
+    pause
+    exit /b 1
+)
+
+REM Install requirements if needed
+if not exist "requirements.txt" (
+    echo Creating requirements.txt...
+    echo Flask==2.3.3 > requirements.txt
+    echo Werkzeug==2.3.7 >> requirements.txt
+)
+
+echo Installing/checking requirements...
+pip install -r requirements.txt
+
+echo.
+echo Starting Browser History Viewer...
+echo Open your browser and go to: http://localhost:5000
+echo Press Ctrl+C to stop the server
+echo.
+
+REM Start the application
+python app.py
+
+pause
